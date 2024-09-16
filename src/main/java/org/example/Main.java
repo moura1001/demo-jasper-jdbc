@@ -8,7 +8,8 @@ public class Main {
         System.out.println("Hello world!");
         //abrirJrxml("01");
         //abrirJrxml("02");
-        abrirJrxml("09");
+        //abrirJrxml("09");
+        abrirJrxml("18");
     }
 
     private static void abrirJrxml(String numero) {
