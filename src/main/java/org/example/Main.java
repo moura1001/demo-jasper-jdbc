@@ -1,7 +1,9 @@
 package org.example;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,7 +11,22 @@ public class Main {
         //abrirJrxml("01");
         //abrirJrxml("02");
         //abrirJrxml("09");
-        abrirJrxml("18");
+        //abrirJrxml("18");
+        exportarParaPDF("18");
+    }
+
+    private static void exportarParaPDF(String numero) {
+        Connection connection = JdbcConnection.connection();
+        JasperService service = new JasperService();
+        String nomeArquivo = "jasper-" + numero + "-" + UUID.randomUUID() + ".pdf";
+        String resourceUrl = new File("src/main/resources/relatorios/pdf").getAbsolutePath();
+        String destino = resourceUrl+"\\"+nomeArquivo;
+        service.exportarParaPDF("relatorios/jrxml/funcionarios-"+numero+".jrxml", connection, destino);
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void abrirJrxml(String numero) {
