@@ -12,7 +12,23 @@ public class Main {
         //abrirJrxml("02");
         //abrirJrxml("09");
         //abrirJrxml("18");
-        exportarParaPDF("18");
+        //exportarParaPDF("18");
+        abrirArquivoJasper("09");
+    }
+
+    private static void abrirArquivoJasper(String numero) {
+        Connection connection = JdbcConnection.connection();
+        JasperService service = new JasperService();
+        if("09".equals(numero)) {
+            service.addParam("NIVEL_DESC", "TREINAMENTO");
+            service.addParam("UF", "RJ");
+        }
+        service.abrirArquivoJasper("relatorios/jasper/funcionarios-"+numero+".jasper", connection);
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void exportarParaPDF(String numero) {

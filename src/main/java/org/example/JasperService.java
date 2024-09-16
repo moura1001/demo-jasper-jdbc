@@ -18,6 +18,17 @@ public class JasperService {
         params.put(key, value);
     }
 
+    public void abrirArquivoJasper(String arquivoJasper, Connection connection) {
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream(arquivoJasper);
+            JasperPrint print = JasperFillManager.fillReport(is, this.params, connection);
+            JasperViewer viewer = new JasperViewer(print);
+            viewer.setVisible(true);
+        } catch (JRException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void exportarParaPDF(String jrxml, Connection connection, String destino) {
         JasperReport report = compilarJrxml(jrxml);
         try {
