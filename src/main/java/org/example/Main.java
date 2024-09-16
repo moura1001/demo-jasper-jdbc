@@ -14,7 +14,23 @@ public class Main {
         //abrirJrxml("18");
         //exportarParaPDF("18");
         //abrirArquivoJasper("09");
-        abrirArquivoJasperComSubRelatorio("10");
+        //abrirArquivoJasperComSubRelatorio("10");
+        abrirJrxmlComSubRelatorio("10");
+    }
+
+    private static void abrirJrxmlComSubRelatorio(String numero) {
+        Connection connection = JdbcConnection.connection();
+        JasperService service = new JasperService();
+        service.abrirJrxmlComSubRelatorio(
+                "relatorios/jrxml/funcionarios-"+numero+".jrxml",
+                "relatorios/jrxml/funcionarios-"+numero+"-subfones.jrxml",
+                connection
+        );
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void abrirArquivoJasperComSubRelatorio(String numero) {

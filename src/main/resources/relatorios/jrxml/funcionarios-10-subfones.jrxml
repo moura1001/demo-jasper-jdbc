@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="funcionarios-10-subfones" language="groovy" pageWidth="200" pageHeight="30" columnWidth="200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ef228d50-5ed4-4ca3-a988-a637a2d8c818">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL Udemy Data Adapter "/>
+	<parameter name="ID_FUNCIONARIO" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT DISTINCT t.numero,
+	t.tipo_fone
+FROM jaspercurso.telefones t,
+	jaspercurso.funcionarios f
+WHERE 
+	 t.id_funcionario = $P{ID_FUNCIONARIO}]]>
+	</queryString>
+	<field name="numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="numero"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="telefones"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_fone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_fone"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_fone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="telefones"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="30" uuid="e45f723e-ade2-4172-b84b-7385f1738d94"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_fone}.equalsIgnoreCase( "COM" ) ? "Comercial" :
+$F{tipo_fone}.equalsIgnoreCase( "RES" ) ? "Residencial" :
+$F{tipo_fone}.equalsIgnoreCase( "CEL" ) ? "Celular" : "Desconhecido"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="30" uuid="75a44338-8f55-4362-8e81-a0bb5bf4b1a5"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_fone}.equalsIgnoreCase( "COM" ) || $F{tipo_fone}.equalsIgnoreCase( "RES" ) ? "(" + $F{numero}.substring( 0, 2 ) + ") " + $F{numero}.substring( 2, 6 ) + "-" + $F{numero}.substring( 6 ) :
+$F{tipo_fone}.equalsIgnoreCase( "CEL" ) ? "(" + $F{numero}.substring( 0, 2 ) + ") " + $F{numero}.substring( 2, 7 ) + "-" + $F{numero}.substring( 7 ) :
+"Desconhecido"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

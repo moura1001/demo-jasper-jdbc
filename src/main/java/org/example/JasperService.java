@@ -18,6 +18,20 @@ public class JasperService {
         params.put(key, value);
     }
 
+    public void abrirJrxmlComSubRelatorio(String arqMaster, String arqSub, Connection connection) {
+        try {
+            JasperReport subReport = compilarJrxml(arqSub);
+            this.params.put("SUB_REPORT_PARAM", subReport);
+            JasperReport masterReport = compilarJrxml(arqMaster);
+
+            JasperPrint print = JasperFillManager.fillReport(masterReport, this.params, connection);
+            JasperViewer viewer = new JasperViewer(print);
+            viewer.setVisible(true);
+        } catch (JRException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void abrirArquivoJasper(String arquivoJasper, Connection connection) {
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream(arquivoJasper);
